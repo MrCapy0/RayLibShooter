@@ -1,9 +1,12 @@
 #pragma once
 
-class Level
+namespace G
 {
-public:
-    Level();
-    void Setup();
-    void Update(float delta);
-};
+    class Level
+    {
+    public:
+        Level();
+        void Setup();
+        void Update(float delta);
+    };
+}

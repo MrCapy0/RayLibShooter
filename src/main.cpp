@@ -1,21 +1,24 @@
 #include <iostream>
 #include "raylib.h"
 #include "raymath.h"
+#include "IActor.h"
 #include "Game.h"
 #include "Level.h"
 
 Camera3D camera;
 
-Level level;
+G::Level level;
 Model cubeModel;
 
-void Game::SetCamera(Vector3 position, Vector3 direction)
+std::vector<G::IActor *> G::Game::actors;
+
+void G::Game::SetCamera(Vector3 position, Vector3 direction)
 {
     camera.position = position;
     camera.target = Vector3Add(position, direction);
 }
 
-void Game::DrawCube(Vector3 position, Vector3 euler, Vector3 size, Color color)
+void G::Game::DrawCube(Vector3 position, Vector3 euler, Vector3 size, Color color)
 {
     euler.x *= DEG2RAD;
     euler.y *= DEG2RAD;
@@ -28,6 +31,14 @@ void Game::DrawCube(Vector3 position, Vector3 euler, Vector3 size, Color color)
     cubeModel.transform = scale * transform * rotation;
 
     DrawModel(cubeModel, {0}, 1, color);
+}
+
+void G::Game::Update(const float delta)
+{
+    for (IActor *actor : actors)
+    {
+        actor->Update(delta);
+    }
 }
 
 int main()
@@ -47,7 +58,7 @@ int main()
 
     cubeModel = LoadModel("assets/Cube.glb");
 
-    level = Level();
+    level = G::Level();
     level.Setup();
 
     while (!WindowShouldClose())
@@ -56,7 +67,9 @@ int main()
         BeginMode3D(camera);
         ClearBackground(RAYWHITE);
 
-        level.Update(GetFrameTime());
+        float delta = GetFrameTime();
+        level.Update(delta);
+        G::Game::Update(delta);
 
         DrawGrid(50, 1);
         EndMode3D();
