@@ -1,55 +1,47 @@
-workspace "RaylibProject"
-    architecture "x64"
-    configurations { "Debug", "Release" }
-    startproject "Game"
+workspace "Raylib Game"
+    configurations {"Debug" }
+
+    location "build"
 
 project "Game"
-    location "build"
     kind "ConsoleApp"
     language "C++"
     cppdialect "C++17"
+    targetdir "bin/%{cfg.buildcfg}"
+    objdir "build/obj/%{cfg.buildcfg}"
 
-    targetdir ("build/bin/%{cfg.buildcfg}")
-    objdir ("build/obj/%{cfg.buildcfg}")
-
-    files
-    {
-        "src/**.h",
-        "src/**.cpp"
+    files {
+        "**.h",
+        "**.c",
+        "**.cpp",
+        "**.hpp",
     }
 
-    includedirs
-    {
+    includedirs {
         "libs/raylib/include"
     }
 
-    libdirs
-    {
+    links{
+        "raylib",
+        "m",         -- math library (for linux)
+        "pthread",   -- threads (for linux)
+        "dl",        -- dynamic loading (for linux)
+        "X11",       -- X11 (for linux)
+        "xcb",       -- XCB (for linux, X11 alternative)
+        "Xau",       -- X11 authorization (for linux)
+        "Xdmcp"      -- X11 display manager control (for linux)
+    }
+
+    libdirs {
         "libs/raylib/lib"
     }
 
     filter "system:linux"
-        links
-        {
-            "raylib",
-            "m",
-            "pthread",
-            "dl",
-            "rt",
-            "X11"
-        }
-
-        linkoptions
-        {
-            "-Wl,-rpath,$$ORIGIN"
+        links {
+            "GL",
+            "rt"
         }
 
     filter "configurations:Debug"
-        runtime "Debug"
+        defines { "DEBUG" }
         symbols "On"
-
-    filter "configurations:Release"
-        runtime "Release"
-        optimize "On"
-
-    filter {}

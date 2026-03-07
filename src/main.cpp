@@ -1,16 +1,24 @@
+#include <iostream>
 #include "raylib.h"
 
 int main()
 {
-    InitWindow(800, 450, "raylib + premake");
+    std::cout << "Hello!" << std::endl;
+
+    const int screenWidth = 800;
+    const int screenHeight = 450;
+
+    InitWindow(screenWidth, screenHeight, "Window");
+    SetTargetFPS(60);
 
     while (!WindowShouldClose())
     {
         BeginDrawing();
         ClearBackground(RAYWHITE);
-        DrawText("Hello Raylib!", 300, 200, 20, BLACK);
         EndDrawing();
     }
 
     CloseWindow();
+
+    return 0;
 }

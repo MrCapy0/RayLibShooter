@@ -1,0 +1,24 @@
+{
+    "version": "2.0.0",
+    "tasks": [
+        {
+            "label": "premake-generate",
+            "type": "shell",
+            "command": "./build.sh",
+            "group": "build",
+            "problemMatcher": []
+        },
+        {
+            "label": "make-build",
+            "type": "shell",
+            "command": "make",
+            "args": ["-C", "build"],
+            "group": {
+                "kind": "build",
+                "isDefault": true
+            },
+            "dependsOn": ["premake-generate"],
+            "problemMatcher": ["$gcc"]
+        }
+    ]
+}
