@@ -10,9 +10,10 @@ namespace G
         Transform transform;
 
     public:
-        virtual void Setup() = 0;
-        virtual void Update(float delta) = 0;
-        void SetTransform(const Transform transform);
+        virtual void OnSetup() = 0;
+        virtual void OnUpdate(float delta) = 0;
+        virtual void OnPostRender() = 0;
+        virtual void SetTransform(const Transform transform);
         G::Transform GetTransform() const;
         virtual ~IActor() = default;
     };

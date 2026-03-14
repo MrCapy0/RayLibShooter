@@ -10,5 +10,7 @@ namespace G
         Quaternion rotation;
         Vector3 scale;
         Transform();
+        Vector3 GetForward() const;
+        Vector3 GetRight() const;
     };
 }
